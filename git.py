@@ -1,6 +1,6 @@
 print("Welcome to Git Manager")
 print("")
-
+ 
 print("> upload all / filename")
 print("> update all / filename")
 print("> download webUrl")
@@ -12,39 +12,6 @@ path = os.getcwd()
 files = os.listdir(path)
 numOfFiles = len(files) - 1
 success = 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 commands = ["upload all", "update all", "download"]
 
