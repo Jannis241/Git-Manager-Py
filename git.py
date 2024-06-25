@@ -1,6 +1,23 @@
 print("Welcome to Git Manager")
 print("")
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 print("> upload all / filename")
 print("> update all / filename")
 print("> download webUrl")
@@ -67,15 +84,16 @@ while True:
         try:
             file_name = inp.split(" ")[1]
             newPath = path + "\\" + file_name
-            if os.path.exists(newPath):
-                os.chdir(newPath)
-                os.system("git pull origin main")
-                print(f"<Status> {file_name}: success")
-                print("")
-                print(f"Updated {file_name} successfully..")
-            else:
-                print(f"File '{file_name}' does not exist in the current directory.")
-                print(f"<Status> {file_name}: failed")
+            if file_name != "git.py":
+                if os.path.exists(newPath):
+                    os.chdir(newPath)
+                    os.system("git pull origin main")
+                    print(f"<Status> {file_name}: success")
+                    print("")
+                    print(f"Updated {file_name} successfully..")
+                else:
+                    print(f"File '{file_name}' does not exist in the current directory.")
+                    print(f"<Status> {file_name}: failed")
         except:
             print("<ERROR> Update failed..")
             
