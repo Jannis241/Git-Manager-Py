@@ -4,27 +4,24 @@ print("")
 import os
 
 
-
-
-path = os.getcwd()
-
+path = os.path.dirname(os.getcwd())
 files = os.listdir(path)
 numOfFiles = len(files)
+
+
+
 success = 0
 
 commands = ["upload all", "update all", "download", "get username", "set username"]
 
 
-def read_or_write_username():
-    
-    # Überprüfen, ob die Datei existiert
-    if not os.path.exists(CONFIGPATH):
-        # Datei erstellen, wenn sie nicht existiert
-        with open(CONFIGPATH, 'w') as file:
-            pass
-
+def read_or_write_username(configPath):
+    if not os.path.exists(configPath):
+        with open(configPath, 'w') as file:
+            pass         
+   
     # Datei öffnen und prüfen, ob sie leer ist
-    with open(CONFIGPATH, 'r+') as file:
+    with open(configPath, 'r+') as file:
         content = file.read().strip()
         
         if content:
@@ -40,11 +37,12 @@ def read_or_write_username():
             print(f"Benutzername '{username}' wurde in config.txt gespeichert.")
 
             return username
-        
-CONFIGPATH = path + "\\" + "Git-Manager" + "\\" + "config.txt"
 
-username = read_or_write_username()
- 
+
+configPath = os.path.join(os.getcwd(), "config.txt")
+username = read_or_write_username(configPath)
+
+
 print("> upload all / filename")
 print("> update all / filename")
 print("> download repositoryName")
@@ -58,7 +56,7 @@ while True:
 
     if "set username" in inp:
         username = inp.split(" ")[2]
-        with open(CONFIGPATH, 'w') as file:
+        with open(configPath, 'w') as file:
             file.write(username)
             print(f"Benutzername wurde zu '{username}' geändert.")
 
@@ -66,6 +64,7 @@ while True:
     if "download" in inp:
         try:
             repoName = inp.split(" ")[1]
+            os.chdir(path)
             os.system(f"git clone https://github.com/{username}/{repoName}.git")
 
         except:
@@ -77,7 +76,7 @@ while True:
         success = 0
         try:
             for file_name in files:
-                if file_name != "git.py":
+                if file_name:
 
                     if file_name.lower() == "q":
                         exit()
@@ -110,16 +109,15 @@ while True:
         try:
             file_name = inp.split(" ")[1]
             newPath = path + "\\" + file_name
-            if file_name != "git.py":
-                if os.path.exists(newPath):
-                    os.chdir(newPath)
-                    os.system("git pull origin main")
-                    print(f"<Status> {file_name}: success")
-                    print("")
-                    print(f"Updated {file_name} successfully..")
-                else:
-                    print(f"File '{file_name}' does not exist in the current directory.")
-                    print(f"<Status> {file_name}: failed")
+            if os.path.exists(newPath):
+                os.chdir(newPath)
+                os.system("git pull origin main")
+                print(f"<Status> {file_name}: success")
+                print("")
+                print(f"Updated {file_name} successfully..")
+            else:
+                print(f"File '{file_name}' does not exist in the current directory.")
+                print(f"<Status> {file_name}: failed")
         except:
             print("<ERROR> Update failed..")
             
@@ -133,7 +131,7 @@ while True:
                 print("")
                 try:
                     for file_name in files:
-                        if file_name != "git.py":
+                        if file_name:
                             newPath = path + "\\" + file_name
 
                             if os.path.exists(newPath):
