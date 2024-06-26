@@ -1,32 +1,75 @@
+
 print("Welcome to Git Manager")
 print("")
- 
-print("> upload all / filename")
-print("> update all / filename")
-print("> download webUrl")
-print("")
-
 import os
+
+
+
+
 path = os.getcwd()
 
 files = os.listdir(path)
 numOfFiles = len(files) - 1
 success = 0
 
-commands = ["upload all", "update all", "download"]
+commands = ["upload all", "update all", "download", "get username", "set username"]
 
+
+def read_or_write_username():
+    
+    # Überprüfen, ob die Datei existiert
+    if not os.path.exists(CONFIGPATH):
+        # Datei erstellen, wenn sie nicht existiert
+        with open(CONFIGPATH, 'w') as file:
+            pass
+
+    # Datei öffnen und prüfen, ob sie leer ist
+    with open(CONFIGPATH, 'r+') as file:
+        content = file.read().strip()
+        
+        if content:
+            # Datei ist nicht leer, Username auslesen
+            print(f"Benutzername: {content}")
+            return content
+        else:
+            # Datei ist leer, nach Username fragen
+            username = input("Bitte geben Sie Ihren Benutzernamen ein: ").strip()
+            
+            # Username in die Datei schreiben
+            file.write(username)
+            print(f"Benutzername '{username}' wurde in config.txt gespeichert.")
+
+            return username
+        
+CONFIGPATH = path + "\\" + "Git-Manager" + "\\" + "config.txt"
+
+username = read_or_write_username()
+ 
+print("> upload all / filename")
+print("> update all / filename")
+print("> download repositoryName")
+print("> set username name")
+print("> get username")
+print("")
 while True:
     inp = input("<Git> ")
+    if inp == "get username":
+        print("<Git> Username: " + username)
+
+    if "set username" in inp:
+        username = inp.split(" ")[2]
+        with open(CONFIGPATH, 'w') as file:
+            file.write(username)
+            print(f"Benutzername wurde zu '{username}' geändert.")
 
     
     if "download" in inp:
         try:
             repoName = inp.split(" ")[1]
-            os.system("git clone " + repoName)
-            print(f"<Status> Download {repoName}: success")
+            os.system(f"git clone https://github.com/{username}/{repoName}.git")
 
         except:
-            print("<ERROR> Something went wrong..")
+            print("<ERROR> Repository or Username couldnt be found..")
         print("")
         print("")
     if inp == "update all":
@@ -146,5 +189,5 @@ while True:
     if inp == "q" or inp == "quit":
         exit()
 
-    if not inp in commands and not "upload " in inp and not "update" in inp and not "download" in inp:
+    if not inp in commands and not "upload " in inp and not "update" in inp and not "download" in inp and not "set username" in inp:
         print(f'<ERROR> command "{inp}" not found.')
