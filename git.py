@@ -35,6 +35,7 @@ def read_or_write_username(configPath):
             # Username in die Datei schreiben
             file.write(username)
             print(f"Benutzername '{username}' wurde in config.txt gespeichert.")
+            print("")
 
             return username
 
