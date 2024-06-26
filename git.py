@@ -5,8 +5,8 @@ import os
 
 
 path = os.path.dirname(os.getcwd())
-files = os.listdir(path)
-numOfFiles = len(files)
+files = os.listdir(path) 
+numOfFiles = len(files)- 1 # git manager soll nicht bei update all mit geupdatet werden
 
 
 
@@ -74,10 +74,11 @@ while True:
         print("")
     if inp == "update all":
         print("")
+        print("Der Git-Manager wird durch 'update all' nicht beeinflusst..")
         success = 0
         try:
             for file_name in files:
-                if file_name:
+                if file_name and file_name != "Git-Manager":
 
                     if file_name.lower() == "q":
                         exit()
