@@ -9,7 +9,7 @@ import os
 path = os.getcwd()
 
 files = os.listdir(path)
-numOfFiles = len(files) - 1
+numOfFiles = len(files)
 success = 0
 
 commands = ["upload all", "update all", "download", "get username", "set username"]
