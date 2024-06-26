@@ -6,7 +6,7 @@ import os
 
 path = os.path.dirname(os.getcwd())
 files = os.listdir(path) 
-numOfFiles = len(files)- 1 # git manager soll nicht bei update all mit geupdatet werden
+numOfFiles = len(files) 
 
 
 
@@ -99,7 +99,7 @@ while True:
                         print("")
 
                     
-            print(f"Updated {success}/{numOfFiles} Projects successfully..")
+            print(f"Updated {success}/{numOfFiles - 1} Projects successfully..")
         except:
             print("<ERROR> Update failed..")
 
