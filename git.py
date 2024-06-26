@@ -75,6 +75,7 @@ while True:
     if inp == "update all":
         print("")
         print("Der Git-Manager wird durch 'update all' nicht beeinflusst..")
+        print("")
         success = 0
         try:
             for file_name in files:
