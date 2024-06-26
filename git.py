@@ -46,10 +46,12 @@ username = read_or_write_username(configPath)
 
 print("> upload all / filename")
 print("> update all / filename")
-print("> download repositoryName")
+print("> download repositoryName / https link")
 print("> set username name")
 print("> get username")
 print("")
+
+
 while True:
     inp = input("<Git> ")
     if inp == "get username":
@@ -66,7 +68,12 @@ while True:
         try:
             repoName = inp.split(" ")[1]
             os.chdir(path)
-            os.system(f"git clone https://github.com/{username}/{repoName}.git")
+            if repoName.startswith("https://"):
+                os.system(f"git clone " + repoName)
+
+            else:
+                os.system(f"git clone https://github.com/{username}/{repoName}.git")
+
 
         except:
             print("<ERROR> Repository or Username couldnt be found..")
