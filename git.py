@@ -162,16 +162,22 @@ while True:
     elif "upload" in inp:
 
         try:
+
+            defaultCommitMsg = "automatic commit by Git-Manager"
             splittedInput = inp.split(" ")
 
             file_name = inp.split(" ")[1]
 
             lenOfCommitMessage = len(splittedInput) - 2
+            if lenOfCommitMessage == 0:
+                commitMessage = defaultCommitMsg
 
-            commitMessageList = splittedInput[-lenOfCommitMessage:]
-            commitMessage = ""
-            for word in commitMessageList:
-                commitMessage += str(word) + " "
+            else:   
+
+                commitMessageList = splittedInput[-lenOfCommitMessage:]
+                commitMessage = ""
+                for word in commitMessageList:
+                    commitMessage += str(word) + " "
 
             newPath = path + "\\" + file_name
             if os.path.exists(newPath):
