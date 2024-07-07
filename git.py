@@ -172,7 +172,7 @@ while True:
             if lenOfCommitMessage == 0:
                 commitMessage = defaultCommitMsg
 
-            else:   
+            else:
 
                 commitMessageList = splittedInput[-lenOfCommitMessage:]
                 commitMessage = ""
