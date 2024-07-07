@@ -169,15 +169,14 @@ while True:
             file_name = inp.split(" ")[1]
 
             lenOfCommitMessage = len(splittedInput) - 2
-            if lenOfCommitMessage == 0:
+            commitMessageList = splittedInput[-lenOfCommitMessage:]
+
+            commitMessage = ""
+            for word in commitMessageList:
+                commitMessage += str(word) + " "
+
+            if commitMessage.strip() == "":
                 commitMessage = defaultCommitMsg
-
-            else:
-
-                commitMessageList = splittedInput[-lenOfCommitMessage:]
-                commitMessage = ""
-                for word in commitMessageList:
-                    commitMessage += str(word) + " "
 
             newPath = path + "\\" + file_name
             if os.path.exists(newPath):
