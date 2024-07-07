@@ -1,13 +1,10 @@
-
 print("Welcome to Git Manager")
 print("")
 import os
 
-
 path = os.path.dirname(os.getcwd())
-files = os.listdir(path) 
-numOfFiles = len(files) 
-
+files = os.listdir(path)
+numOfFiles = len(files)
 
 
 success = 0
@@ -17,13 +14,13 @@ commands = ["upload all", "update all", "download", "get username", "set usernam
 
 def read_or_write_username(configPath):
     if not os.path.exists(configPath):
-        with open(configPath, 'w') as file:
-            pass         
-   
+        with open(configPath, "w") as file:
+            pass
+
     # Datei öffnen und prüfen, ob sie leer ist
-    with open(configPath, 'r+') as file:
+    with open(configPath, "r+") as file:
         content = file.read().strip()
-        
+
         if content:
             # Datei ist nicht leer, Username auslesen
             print(f"Benutzername: {content}")
@@ -31,7 +28,7 @@ def read_or_write_username(configPath):
         else:
             # Datei ist leer, nach Username fragen
             username = input("Bitte geben Sie Ihren Benutzernamen ein: ").strip()
-            
+
             # Username in die Datei schreiben
             file.write(username)
             print(f"Benutzername '{username}' wurde in config.txt gespeichert.")
@@ -44,7 +41,7 @@ configPath = os.path.join(os.getcwd(), "config.txt")
 username = read_or_write_username(configPath)
 
 
-print("> upload all / filename")
+print("> upload all / filename (commit message)")
 print("> update all / filename")
 print("> download repositoryName / https link")
 print("> set username name")
@@ -59,11 +56,10 @@ while True:
 
     if "set username" in inp:
         username = inp.split(" ")[2]
-        with open(configPath, 'w') as file:
+        with open(configPath, "w") as file:
             file.write(username)
             print(f"Benutzername wurde zu '{username}' geändert.")
 
-    
     if "download" in inp:
         try:
             repoName = inp.split(" ")[1]
@@ -73,7 +69,6 @@ while True:
 
             else:
                 os.system(f"git clone https://github.com/{username}/{repoName}.git")
-
 
         except:
             print("<ERROR> Repository or Username couldnt be found..")
@@ -106,7 +101,6 @@ while True:
                         print("")
                         print("")
 
-                    
             print(f"Updated {success}/{numOfFiles - 1} Projects successfully..")
         except:
             print("<ERROR> Update failed..")
@@ -115,7 +109,7 @@ while True:
         print("")
 
     elif "update" in inp:
-        
+
         try:
             file_name = inp.split(" ")[1]
             newPath = path + "\\" + file_name
@@ -130,55 +124,60 @@ while True:
                 print(f"<Status> {file_name}: failed")
         except:
             print("<ERROR> Update failed..")
-            
-            
+
         print("")
         print("")
 
     if inp == "upload all":
-            success = 0
-            if input ("<Confirm> Are you sure you want to upload all files to git? (y/n): ") == "y":
-                print("")
-                try:
-                    for file_name in files:
-                        if file_name:
-                            newPath = path + "\\" + file_name
+        success = 0
+        if input("<Confirm> Are you sure you want to upload all files to git? (y/n): ") == "y":
+            print("")
+            try:
+                for file_name in files:
+                    if file_name:
+                        newPath = path + "\\" + file_name
 
-                            if os.path.exists(newPath):
-                                os.chdir(newPath)
-                                os.system("git add .")
-                                os.system('git commit -m "automatic python commit"')
-                                os.system("git push origin main")
-                                print(f"<Status> {file_name}: success")
-                                success += 1
-                                print("")
-                                print("")
-                            else:
-                                print(f"File '{file_name}' does not exist in the current directory.")
-                                print(f"<Status> {file_name}: failed")
-                                print("")
-                                print("")
+                        if os.path.exists(newPath):
+                            os.chdir(newPath)
+                            os.system("git add .")
+                            os.system('git commit -m "automatic python commit"')
+                            os.system("git push origin main")
+                            print(f"<Status> {file_name}: success")
+                            success += 1
+                            print("")
+                            print("")
+                        else:
+                            print(f"File '{file_name}' does not exist in the current directory.")
+                            print(f"<Status> {file_name}: failed")
+                            print("")
+                            print("")
 
-                            
-                    print(f"Uploaded {success}/{numOfFiles} Projects successfully..")
-                except:
-                    print("<ERROR> Upload failed..")
-                
-                print("")
-                print("")
+                print(f"Uploaded {success}/{numOfFiles} Projects successfully..")
+            except:
+                print("<ERROR> Upload failed..")
 
-
-
+            print("")
+            print("")
 
     elif "upload" in inp:
-        
+
         try:
+            splittedInput = inp.split(" ")
+
             file_name = inp.split(" ")[1]
+
+            lenOfCommitMessage = len(splittedInput) - 2
+
+            commitMessageList = splittedInput[-lenOfCommitMessage:]
+            commitMessage = ""
+            for word in commitMessageList:
+                commitMessage += str(word) + " "
+
             newPath = path + "\\" + file_name
             if os.path.exists(newPath):
                 os.chdir(newPath)
                 os.system("git add .")
-                os.system('git commit -m "automatic python commit"')
+                os.system(f'git commit -m "{commitMessage}"')
                 os.system("git push origin main")
                 print(f"<Status> {file_name}: success")
                 print("")
@@ -187,12 +186,10 @@ while True:
                 print(f"File '{file_name}' does not exist in the current directory.")
                 print(f"<Status> {file_name}: failed")
         except:
-                print("<ERROR> Upload failed..")
-        
-        
-        print("")
-        print("")
+            print("<ERROR> Upload failed..")
 
+        print("")
+        print("")
 
     if inp == "q" or inp == "quit":
         exit()
